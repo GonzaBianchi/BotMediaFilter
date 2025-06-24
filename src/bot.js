@@ -18,7 +18,9 @@ const commands = [];
 const commandsPath = path.join(process.cwd(), 'src', 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js') && file !== 'index.js');
 for (const file of commandFiles) {
-  const command = await import(`../commands/${file}`);
+  // Usar ruta absoluta para import dinámico compatible con ESM
+  const commandModulePath = path.join(commandsPath, file);
+  const command = await import(`file://${commandModulePath}`);
   if (command.data && command.execute) {
     commands.push(command.data.toJSON());
     client.commands = client.commands || new Map();
