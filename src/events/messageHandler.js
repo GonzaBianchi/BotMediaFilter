@@ -22,12 +22,16 @@ export default (client) => {
           .setAuthor({
             name: `${message.author.username}#${message.author.discriminator} (ID: ${message.author.id})`,
             iconURL: message.author.displayAvatarURL()
-          })
-          .setDescription(message.content || '')
-          .setTimestamp(message.createdAt);
-
+          });
+        // Si hay imagen adjunta, mostrar la primera en el embed
+        const firstImage = message.attachments.find(a => a.contentType && a.contentType.startsWith('image/'));
+        if (firstImage) {
+          embed.setImage(firstImage.url);
+        }
         await targetChannel.send({
           embeds: [embed],
+          // Fuera del embed, solo el contenido del mensaje y todos los archivos adjuntos
+          content: message.content || '',
           files: message.attachments.map(a => a.url)
         });
       }
