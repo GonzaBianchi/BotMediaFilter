@@ -1,4 +1,4 @@
-import { Events, EmbedBuilder } from 'discord.js';
+import { Events } from 'discord.js';
 import filterMedia from '../utils/mediaFilter.js';
 
 // Configura aquí los IDs de los canales origen y destino
@@ -18,20 +18,11 @@ export default (client) => {
     if (filterMedia(message)) {
       const targetChannel = await client.channels.fetch(TARGET_CHANNEL);
       if (targetChannel) {
-        const embed = new EmbedBuilder()
-          .setAuthor({
-            name: `${message.author.username}#${message.author.discriminator} (ID: ${message.author.id})`,
-            iconURL: message.author.displayAvatarURL()
-          });
-        // Si hay imagen adjunta, mostrar la primera en el embed
-        const firstImage = message.attachments.find(a => a.contentType && a.contentType.startsWith('image/'));
-        if (firstImage) {
-          embed.setImage(firstImage.url);
-        }
+        // Solo mostrar el ID del usuario y debajo el contenido/link
+        let content = `ID: ${message.author.id}`;
+        if (message.content) content += `\n${message.content}`;
         await targetChannel.send({
-          embeds: [embed],
-          // Fuera del embed, solo el contenido del mensaje y todos los archivos adjuntos
-          content: message.content || '',
+          content,
           files: message.attachments.map(a => a.url)
         });
       }
