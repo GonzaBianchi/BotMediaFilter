@@ -16,7 +16,7 @@ const client = new Client({
 // Cargar comandos slash
 const commands = [];
 const commandsPath = path.join(process.cwd(), 'src', 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js') && file !== 'index.js');
 for (const file of commandFiles) {
   const command = await import(`../commands/${file}`);
   if (command.data && command.execute) {
