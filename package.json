@@ -2,11 +2,10 @@
   "name": "discord-bot-multimedia",
   "version": "1.0.0",
   "description": "Bot de Discord para reenviar mensajes multimedia a un canal específico.",
-  "main": "src/bot.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/bot.js",
-    "server": "node src/server.js"
+    "start": "node src/index.js"
   },
   "author": "",
   "license": "MIT",
