@@ -18,7 +18,10 @@ export default (client) => {
     if (filterMedia(message)) {
       const targetChannel = await client.channels.fetch(TARGET_CHANNEL);
       if (targetChannel) {
-        targetChannel.send({ content: message.content, files: message.attachments.map(a => a.url) });
+        // Agrega el usuario que envió el mensaje
+        const authorTag = `${message.author.username}#${message.author.discriminator}`;
+        const content = `**Enviado por:** ${authorTag}\n${message.content}`;
+        targetChannel.send({ content, files: message.attachments.map(a => a.url) });
       }
     }
   });
