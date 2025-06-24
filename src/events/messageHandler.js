@@ -1,4 +1,4 @@
-import { Events } from 'discord.js';
+import { Events, EmbedBuilder } from 'discord.js';
 import filterMedia from '../utils/mediaFilter.js';
 
 // Configura aquí los IDs de los canales origen y destino
@@ -18,12 +18,16 @@ export default (client) => {
     if (filterMedia(message)) {
       const targetChannel = await client.channels.fetch(TARGET_CHANNEL);
       if (targetChannel) {
-        // Menciona correctamente al usuario
-        const authorMention = `<@${message.author.id}>`;
-        let content = `**Enviado por:** ${authorMention}`;
-        if (message.content) content += `\n${message.content}`;
+        const embed = new EmbedBuilder()
+          .setAuthor({
+            name: `${message.author.username}#${message.author.discriminator} (ID: ${message.author.id})`,
+            iconURL: message.author.displayAvatarURL()
+          })
+          .setDescription(message.content || '')
+          .setTimestamp(message.createdAt);
+
         await targetChannel.send({
-          content,
+          embeds: [embed],
           files: message.attachments.map(a => a.url)
         });
       }
