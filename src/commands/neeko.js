@@ -18,6 +18,10 @@ export async function execute(interaction) {
   }
   let mensaje = interaction.options.getString('mensaje');
   mensaje = mensaje.replace(/\\n/g, '\n'); // Soporta \n como salto de línea
-  await interaction.channel.send(mensaje);
+
+  // Responde primero al usuario para evitar timeout
   await interaction.reply({ content: 'Mensaje enviado como Neeko.', ephemeral: true });
+
+  // Luego envía el mensaje al canal
+  await interaction.channel.send(mensaje);
 }
