@@ -10,7 +10,7 @@ export const data = new SlashCommandBuilder()
   )
   .addStringOption(option =>
     option.setName('descripcion')
-      .setDescription('Descripción del embed (usa \\n para saltos de línea, puedes usar **negrita**, *cursiva*, __subrayado__, etc.)')
+      .setDescription('Texto del embed (usa \\n para saltos de línea y estilos)')
       .setRequired(true)
   )
   .setDefaultMemberPermissions(PermissionFlagsBits.Administrator);
